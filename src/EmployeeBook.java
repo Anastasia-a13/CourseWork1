@@ -2,9 +2,9 @@ public class EmployeeBook {
     private final Employee[] employees = new Employee[10];
 
     public void printAllEmployees() {
-        for (Employee emp : employees) {
-            if (emp != null) {
-                System.out.println(emp);
+        for (Employee employee : employees) {
+            if (employee != null) {
+                System.out.println(employee);
             }
         }
     }
@@ -12,9 +12,9 @@ public class EmployeeBook {
     public double calculateAverageSalary() {
         int sum = 0;
         int count = 0;
-        for (Employee emp : employees) {
-            if (emp != null) {
-                sum += emp.getSalary();
+        for (Employee employee : employees) {
+            if (employee != null) {
+                sum += employee.getSalary();
                 count++;
             }
         }
@@ -26,48 +26,46 @@ public class EmployeeBook {
     }
 
     public void printTaxes(String taxType) {
-        for (Employee emp : employees) {
-            if (emp == null) continue;
-            int salary = emp.getSalary();
-            double taxRate = 0;
-            switch (taxType) {
-                case "PROPORTIONAL":
-                    taxRate = 0.13;
-                    break;
-                case "PROGRESSIVE":
-                    if (salary < 150) {
+        for (Employee employee : employees) {
+            if (employee != null) {
+                int salary = employee.getSalary();
+                double taxRate = 0;
+                switch (taxType) {
+                    case "PROPORTIONAL":
                         taxRate = 0.13;
-                    } else if (salary < 350) {
-                        taxRate = 0.17;
-                    } else {
-                        taxRate = 0.21;
-                    }
-                    break;
-                default:
-                    System.out.println("Такого типа налога не существует" + taxType);
+                        break;
+                    case "PROGRESSIVE":
+                        if (salary < 150) {
+                            taxRate = 0.13;
+                        } else if (salary < 350) {
+                            taxRate = 0.17;
+                        } else {
+                            taxRate = 0.21;
+                        }
+                        break;
+                    default:
+                        System.out.println("Такого типа налога не существует" + taxType);
+                }
+                double tax = salary * taxRate;
+                System.out.printf("Сотрудник: %s, Налог (%s): %.2f%n", employee.getFullName(), taxType, tax);
             }
-            double tax = salary * taxRate;
-            System.out.printf("Сотрудник: %s, Налог (%s): %.2f%n", emp.getFullName(), taxType, tax);
         }
     }
 
     public void indexSalaries(int department, double percent) {
         double coefficient = 1 + percent / 100.0;
-        for (Employee emp : employees) {
-            if (emp == null) continue;
-            if (emp.getDepartment() != department) continue;
-            emp.setSalary((int) (emp.getSalary() * coefficient));
+        for (Employee employee : employees) {
+            if (employee != null && employee.getDepartment() == department) {
+                employee.setSalary((int) (employee.getSalary() * coefficient));
+            }
         }
     }
 
     public void findFirstEmployeeBySalary(int department, int wage) {
-        for (Employee emp : employees) {
-            if (emp == null) {
-                continue;
-            }
-            if (emp.getDepartment() == department && emp.getSalary() > wage) {
-                System.out.println("Найден сотрудник ID: " + emp.getId());
-                emp.printShortInfo();
+        for (Employee employee : employees) {
+            if (employee != null && employee.getDepartment() == department && employee.getSalary() > wage) {
+                System.out.println("Найден сотрудник ID: " + employee.getId());
+                employee.printShortInfo();
             }
         }
     }
@@ -76,9 +74,9 @@ public class EmployeeBook {
         int counter = 0;
         int i = 0;
         while (i < employees.length && counter < employeeNumber) {
-            Employee emp = employees[i];
-            if (emp != null && emp.getSalary() < wage) {
-                emp.printShortInfo();
+            Employee employee = employees[i];
+            if (employee != null && employee.getSalary() < wage) {
+                employee.printShortInfo();
                 counter++;
             }
             i++;
@@ -105,9 +103,9 @@ public class EmployeeBook {
     }
 
     public Employee getEmployeeById(int id) {
-        for (Employee emp : employees) {
-            if (emp != null && emp.getId() == id) {
-                return emp;
+        for (Employee employee : employees) {
+            if (employee != null && employee.getId() == id) {
+                return employee;
             }
         }
         return null;
@@ -115,9 +113,9 @@ public class EmployeeBook {
 
     public void printEmployeesByDepartment(int department) {
         System.out.println("Сотрудники отдела №" + department);
-        for (Employee emp : employees) {
-            if (emp != null && emp.getDepartment() == department) {
-                System.out.println(emp);
+        for (Employee employee : employees) {
+            if (employee != null && employee.getDepartment() == department) {
+                System.out.println(employee);
             }
         }
     }
